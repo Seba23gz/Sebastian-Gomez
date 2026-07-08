@@ -1,12 +1,4 @@
 {
-  "buildCommand": "",
-  "installCommand": "",
-  "outputDirectory": ".",
-  "framework": "static",
-  "rewrites": [
-    {
-      "source": "/:path*",
-      "destination": "/index.html"
-    }
-  ]
+  "version": 2,
+  "cleanUrls": true
 }
