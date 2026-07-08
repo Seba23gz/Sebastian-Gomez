@@ -30,16 +30,32 @@
     <text x="600" y="530" font-family="Georgia,serif" font-size="42" font-weight="700" fill="#f4f4f5" text-anchor="middle">Sebastián Gómez</text>
   </svg>
 </div>
+  <div id="debug-info" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.9);color:#0f0;font-family:monospace;font-size:10px;max-height:200px;overflow:auto;z-index:10001;padding:10px;"></div>
   <div id="__bundler_loading">Unpacking...</div>
 
   <script>
     
+// Mostrar debug info
+function addDebug(msg) {
+  const debug = document.getElementById('debug-info');
+  if (debug) {
+    debug.style.display = 'block';
+    debug.innerHTML += msg + '<br>';
+  }
+  console.log(msg);
+}
+
 document.addEventListener('DOMContentLoaded', async function() {
+  addDebug('✓ DOMContentLoaded event fired');
   const loading = document.getElementById('__bundler_loading');
-  function setStatus(msg) { if (loading) loading.textContent = msg; }
+  function setStatus(msg) { 
+    if (loading) loading.textContent = msg;
+    addDebug('Status: ' + msg);
+  }
 
   // Error sink persists across replaceWith since it's on window, not the DOM.
   window.addEventListener('error', function(e) {
+    addDebug('ERROR: ' + (e.message || e.type));
     var p = document.body || document.documentElement;
     var d = document.getElementById('__bundler_err') || p.appendChild(document.createElement('div'));
     d.id = '__bundler_err';
@@ -50,16 +66,22 @@ document.addEventListener('DOMContentLoaded', async function() {
   }, true);
 
   try {
+    addDebug('Looking for bundle scripts...');
     const manifestEl = document.querySelector('script[type="__bundler/manifest"]');
     const templateEl = document.querySelector('script[type="__bundler/template"]');
+    addDebug('Manifest found: ' + (!!manifestEl));
+    addDebug('Template found: ' + (!!templateEl));
+    
     if (!manifestEl || !templateEl) {
       setStatus('Error: missing bundle data');
+      addDebug('ERROR: Missing bundle scripts');
       console.error('[bundler] Missing script tags — manifestEl:', !!manifestEl, 'templateEl:', !!templateEl);
       return;
     }
 
     const manifest = JSON.parse(manifestEl.textContent);
     let template = JSON.parse(templateEl.textContent);
+    addDebug('Manifest keys: ' + Object.keys(manifest).length);
 
     const uuids = Object.keys(manifest);
     setStatus('Unpacking ' + uuids.length + ' assets...');
@@ -163,11 +185,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     
     // Inyectar la imagen en la página
+    addDebug('Injecting photo into page...');
     setTimeout(function() {
       const photoUrl = blobUrls['sebastian-photo-uuid-001'];
+      addDebug('Photo URL: ' + (photoUrl ? 'found' : 'not found'));
       if (photoUrl) {
         // Buscar en toda la página elementos que puedan contener la imagen
         const imgElements = document.querySelectorAll('img[alt*="profile"], img[alt*="photo"], img[alt*="Sebastián"], img[alt*="sebastian"]');
+        addDebug('Found ' + imgElements.length + ' img elements');
         imgElements.forEach(img => {
           img.src = photoUrl;
         });
@@ -179,7 +204,10 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
       }
     }, 500);
+    
+    addDebug('✓ Bundle unpacking completed successfully');
   } catch (err) {
+    addDebug('ERROR in bundle: ' + err.message);
     setStatus('Error unpacking: ' + err.message);
     console.error('Bundle unpack error:', err);
   }
