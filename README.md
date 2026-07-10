@@ -1,21 +1,17 @@
 # Sebastián Gómez - Portafolio
 
-Página web personal con información y portfolio.
+Página web personal (landing) con servicios, proyectos e información de contacto.
 
-## 🚀 Deployment
+## 🌐 Sitio en vivo
 
-La página está deployada en **GitHub Pages** y disponible en:
+**https://sebastian-gomez-sigma.vercel.app/**
 
-### 📱 Acceder a la página
-**https://seba23gz.github.io/Sebastian-Gomez/**
+## 📁 Estructura del proyecto
 
-### 📁 Estructura del proyecto
+- `index.html` — Página del sitio. Es un bundle autocontenido: incluye el HTML, los estilos, las fuentes y las imágenes embebidas (en base64), sin dependencias externas de assets.
+- `vercel.json` — Configuración de Vercel (`cleanUrls`).
+- `Sebastian Gomez.html` — Copia original del bundle completo (respaldo).
 
-- `index.html` - Página principal
-- `styles.css` - Estilos CSS
-- `script.js` - Lógica JavaScript
-- `Sebastian Gomez.html` - Archivo original del bundle completo
+## 🔄 Deployment
 
-### 🔄 Deployment automático
-
-El deployment se realiza automáticamente cuando se hace push a la rama `main` usando GitHub Actions.
+El sitio se despliega en **Vercel**. Cada push a la rama principal genera un nuevo deploy automáticamente.
