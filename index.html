@@ -227,6 +227,7 @@
         <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Nombre</label><input id="f-nombre" placeholder="Tu nombre" style="background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
         <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Negocio o rubro</label><input id="f-negocio" placeholder="¿A qué te dedicas?" style="background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
         <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">¿Qué quieres automatizar?</label><textarea id="f-mensaje" placeholder="Cuéntame brevemente" rows="3" style="background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;resize:vertical;min-height:88px;transition:border-color .2s"></textarea></div>
+        <input id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;pointer-events:none">
         <button id="f-enviar" type="button" style="margin-top:4px;padding:16px;background:#f4f4f5;color:#111111;border:none;border-radius:100px;font:700 15px 'Hanken Grotesk',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s" style-hover="opacity:.85">💬 Enviar por WhatsApp</button>
         <p style="font:400 12.5px/1.5 'Hanken Grotesk',sans-serif;color:#71717a;text-align:center;margin:0">Se abrirá WhatsApp con tu mensaje listo para enviar.</p>
       </div>
@@ -259,6 +260,15 @@
   if (btn) btn.addEventListener('click', function () {
     var v = function (id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; };
     var nombre = v('f-nombre'), negocio = v('f-negocio'), mensaje = v('f-mensaje');
+    // Guardar el lead en el CRM (Supabase Edge Function). Fire-and-forget: no bloquea WhatsApp.
+    if (nombre) {
+      fetch('https://rayvimywyqjnzzmbagpv.supabase.co/functions/v1/nuevo-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: nombre, negocio: negocio, mensaje: mensaje, website: v('f-website') }),
+        keepalive: true
+      }).catch(function () {});
+    }
     var lines = ['Hola Sebasti\u00e1n, quiero automatizar mi negocio.',
       nombre ? 'Nombre: ' + nombre : '', negocio ? 'Negocio: ' + negocio : '', mensaje ? 'Necesito: ' + mensaje : ''
     ].filter(Boolean);
