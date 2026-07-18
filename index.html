@@ -229,6 +229,10 @@
           <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Email *</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.cl" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
           <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Teléfono</label><input id="f-telefono" name="telefono" type="tel" autocomplete="tel" placeholder="+56 9 1234 5678" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
         </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+          <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Empresa</label><input id="f-empresa" name="empresa" autocomplete="organization" placeholder="Nombre de tu empresa" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
+          <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Cargo</label><input id="f-cargo" name="cargo" autocomplete="organization-title" placeholder="Tu cargo" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
+        </div>
         <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Negocio o rubro</label><input id="f-negocio" name="negocio" placeholder="¿A qué te dedicas?" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
         <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">¿Qué quieres automatizar?</label><textarea id="f-mensaje" name="mensaje" placeholder="Cuéntame brevemente" rows="3" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;resize:vertical;min-height:88px;transition:border-color .2s"></textarea></div>
         <input id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;pointer-events:none">
@@ -282,6 +286,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         nombre: nombre, email: email, telefono: v('f-telefono'),
+        empresa: v('f-empresa'), cargo: v('f-cargo'),
         negocio: v('f-negocio'), mensaje: v('f-mensaje'), website: v('f-website')
       })
     }).then(function (r) {
