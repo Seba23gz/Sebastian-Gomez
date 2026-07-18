@@ -370,8 +370,12 @@
       }
       requestAnimationFrame(frame);
     }
-    panel.addEventListener('pointermove', function (e) { var rect = panel.getBoundingClientRect(); mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; });
-    panel.addEventListener('pointerleave', function () { mouse.x = -9999; mouse.y = -9999; });
+    function onMove(e) { var rect = panel.getBoundingClientRect(); mouse.x = e.clientX - rect.left; mouse.y = e.clientY - rect.top; }
+    function onLeave() { mouse.x = -9999; mouse.y = -9999; }
+    panel.addEventListener('pointermove', onMove);
+    panel.addEventListener('mousemove', onMove);
+    panel.addEventListener('pointerleave', onLeave);
+    panel.addEventListener('mouseleave', onLeave);
     build();
     if ('ResizeObserver' in window) new ResizeObserver(build).observe(panel);
     requestAnimationFrame(frame);
@@ -403,7 +407,9 @@
       }
       requestAnimationFrame(frame);
     }
-    window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+    function onBgMove(e) { mouse.x = e.clientX; mouse.y = e.clientY; }
+    window.addEventListener('pointermove', onBgMove);
+    window.addEventListener('mousemove', onBgMove);
     window.addEventListener('resize', build); build(); requestAnimationFrame(frame);
   })();
 })();
