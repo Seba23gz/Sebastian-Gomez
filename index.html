@@ -223,14 +223,18 @@
         </div>
       </div>
 
-      <div data-reveal="0.08" style="background:#2f2f33;border-radius:20px;padding:clamp(24px,3vw,34px);display:flex;flex-direction:column;gap:16px">
-        <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Nombre</label><input id="f-nombre" placeholder="Tu nombre" style="background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
-        <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Negocio o rubro</label><input id="f-negocio" placeholder="¿A qué te dedicas?" style="background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
-        <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">¿Qué quieres automatizar?</label><textarea id="f-mensaje" placeholder="Cuéntame brevemente" rows="3" style="background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;resize:vertical;min-height:88px;transition:border-color .2s"></textarea></div>
+      <form id="lead-form" data-reveal="0.08" novalidate style="background:#2f2f33;border-radius:20px;padding:clamp(24px,3vw,34px);display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Nombre *</label><input id="f-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+          <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Email *</label><input id="f-email" name="email" type="email" required autocomplete="email" placeholder="tucorreo@ejemplo.cl" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
+          <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Teléfono</label><input id="f-telefono" name="telefono" type="tel" autocomplete="tel" placeholder="+56 9 1234 5678" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">Negocio o rubro</label><input id="f-negocio" name="negocio" placeholder="¿A qué te dedicas?" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;transition:border-color .2s"></div>
+        <div style="display:flex;flex-direction:column;gap:7px"><label style="font:700 12px 'Space Mono',monospace;color:#71717a;text-transform:uppercase;letter-spacing:.08em">¿Qué quieres automatizar?</label><textarea id="f-mensaje" name="mensaje" placeholder="Cuéntame brevemente" rows="3" style="width:100%;box-sizing:border-box;background:#111111;border:1px solid #3f3f46;border-radius:10px;padding:14px 15px;font-size:15px;color:#f4f4f5;resize:vertical;min-height:88px;transition:border-color .2s"></textarea></div>
         <input id="f-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;pointer-events:none">
-        <button id="f-enviar" type="button" style="margin-top:4px;padding:16px;background:#f4f4f5;color:#111111;border:none;border-radius:100px;font:700 15px 'Hanken Grotesk',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s" style-hover="opacity:.85">💬 Enviar por WhatsApp</button>
-        <p style="font:400 12.5px/1.5 'Hanken Grotesk',sans-serif;color:#71717a;text-align:center;margin:0">Se abrirá WhatsApp con tu mensaje listo para enviar.</p>
-      </div>
+        <button id="f-enviar" type="submit" style="margin-top:4px;padding:16px;background:#f4f4f5;color:#111111;border:none;border-radius:100px;font:700 15px 'Hanken Grotesk',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity .2s" style-hover="opacity:.85">Enviar mensaje</button>
+        <p id="f-status" role="status" aria-live="polite" style="display:none;font:600 13.5px/1.5 'Hanken Grotesk',sans-serif;text-align:center;margin:0"></p>
+      </form>
     </div>
 
     <div style="border-top:1px solid #2f2f33">
@@ -255,24 +259,40 @@
     el.addEventListener('mouseleave', function () { if (saved !== null) el.setAttribute('style', saved); });
   });
 
-  // ===== contact form -> WhatsApp =====
-  var btn = document.getElementById('f-enviar');
-  if (btn) btn.addEventListener('click', function () {
+  // ===== contact form -> CRM + correo (Resend v\u00eda Edge Function) =====
+  var form = document.getElementById('lead-form');
+  var statusEl = document.getElementById('f-status');
+  var sendBtn = document.getElementById('f-enviar');
+  function setStatus(msg, ok) {
+    if (!statusEl) return;
+    statusEl.textContent = msg;
+    statusEl.style.color = ok ? '#4ade80' : '#f87171';
+    statusEl.style.display = 'block';
+  }
+  if (form) form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
     var v = function (id) { var e = document.getElementById(id); return e ? e.value.trim() : ''; };
-    var nombre = v('f-nombre'), negocio = v('f-negocio'), mensaje = v('f-mensaje');
-    // Guardar el lead en el CRM (Supabase Edge Function). Fire-and-forget: no bloquea WhatsApp.
-    if (nombre) {
-      fetch('https://rayvimywyqjnzzmbagpv.supabase.co/functions/v1/nuevo-lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre: nombre, negocio: negocio, mensaje: mensaje, website: v('f-website') }),
-        keepalive: true
-      }).catch(function () {});
-    }
-    var lines = ['Hola Sebasti\u00e1n, quiero automatizar mi negocio.',
-      nombre ? 'Nombre: ' + nombre : '', negocio ? 'Negocio: ' + negocio : '', mensaje ? 'Necesito: ' + mensaje : ''
-    ].filter(Boolean);
-    window.open('https://wa.me/56963060767?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+    var nombre = v('f-nombre'), email = v('f-email');
+    if (!nombre) { setStatus('Escribe tu nombre.', false); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus('Escribe un correo v\u00e1lido.', false); return; }
+    var original = sendBtn.textContent;
+    sendBtn.disabled = true; sendBtn.textContent = 'Enviando\u2026'; sendBtn.style.opacity = '.7';
+    fetch('https://rayvimywyqjnzzmbagpv.supabase.co/functions/v1/nuevo-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre: nombre, email: email, telefono: v('f-telefono'),
+        negocio: v('f-negocio'), mensaje: v('f-mensaje'), website: v('f-website')
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('bad status');
+      form.reset();
+      setStatus('\u00a1Gracias! Recib\u00ed tu mensaje y te contactar\u00e9 pronto.', true);
+    }).catch(function () {
+      setStatus('No se pudo enviar. Intenta de nuevo o escr\u00edbeme por LinkedIn.', false);
+    }).then(function () {
+      sendBtn.disabled = false; sendBtn.textContent = original; sendBtn.style.opacity = '';
+    });
   });
 
   // ===== scroll reveal =====
